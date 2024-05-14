@@ -1,0 +1,155 @@
+/* Auth_Signin.css */
+
+  .auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: wrap;
+    height: 100vh;
+    margin-top: 60px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: wrap;
+    height: wrap;
+  }
+  
+  .login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    width: max-content;
+    height: 242px;
+  }
+  
+  .login-header-image {
+    position: flex;
+    width: 928px;
+    height: 218px;
+    left: 0px;
+    top: 0px;
+    background: url(./assets/testLoginImage.svg);
+    border-radius: 12px;
+  }
+  
+  .login-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+    width: max-content;
+    height: max-content;
+  }
+
+  .login-field-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 0px 8px;
+    width: 480px;
+    height: 32px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #1C170D;
+  } 
+  
+  .login-field-input {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    width: 480px;
+    height: 56px;
+    background: #FFFFFF;
+    border: 1px solid #E8DECF;
+    border-radius: 12px;
+  }
+
+  .login-field-input::placeholder {
+    font-size: 16.sp;
+    line-height: 24.sp;
+    font-family: 'Plus Jakarta Sans';
+    font-weight: 500;
+    margin: 15px;
+    letter-spacing: 0.5px;
+    color: #A1824A;
+  }
+  
+  .login-field-input input {
+    width: 100%;
+    height: 24px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #A1824A;
+    border: none;
+    outline: none;
+  }
+  
+  .login-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    width: 480px;
+    height: 48px;
+    background: #009963;
+    border-radius: 24px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.24px;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  
+  .signup-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    width: 480px;
+    height: 48px;
+    background: #F5F0E6;
+    border-radius: 24px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.24px;
+    color: #1C170D;
+    cursor: pointer;
+  }
+
+  .spacer {
+    height: 0px;
+    margin: 8px
+  }
