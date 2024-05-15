@@ -1,10 +1,29 @@
 import React from "react";
+import GameDisplay from "../components/gameplaypage/GameDisplay";
+import GameBackground from "../components/gameplaypage/GameBackground";
+import GamePad from "../components/gameplaypage/GamePad";
+import GameKeyTable from "../components/gameplaypage/GameKeyTable";
+import Button from "../components/gameplaypage/Button";
+import GamePadButton from "../components/gameplaypage/GamePadButton";
 
-//player를 활용하여 1, 2를 가져오고 1p 2p를 구분한다.
-export default function GamePlayPage(){
-    return (
-        <>
-            게임 플레이 페이지 입니다.
-        </>
-    )
+export default function GamePlayPage() {
+  return (
+    <GameBackground className="flex justify-center items-center min-h-screen bg-gray-500">
+        <div className="flex w-full max-w-screen-2xl">
+            <GamePad className="flex flex-col justify-center items-center flex-grow bg-white rounded-lg shadow-lg p-4">
+                <GameDisplay className="flex-grow w-[1024px] h-[768px] bg-gray-200 rounded-lg shadow-lg"></GameDisplay>
+                <GamePadButton className="w-full rounded-lg p-4 bg-gray-200 mt-4"></GamePadButton>
+            </GamePad>
+            <div className="ml-8 w-1/6 flex flex-col">
+                <div className="flex justify-between mb-8">
+                    <Button type="report" className="w-28 text-center" />
+                    <Button type="exit" className="w-28 text-center" />
+                </div>
+                <div className="flex-grow overflow-auto">
+                    <GameKeyTable className="h-full bg-white rounded-lg shadow-lg text-center"></GameKeyTable>
+                </div>
+            </div>
+        </div>
+    </GameBackground>
+  );
 }
