@@ -1,30 +1,31 @@
 
   
-  import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import "./PopupAnim.css"
 
-  interface SignupProps {
+interface SignupProps {
     popupRef: React.RefObject<HTMLDivElement | null>;
     showSignupPopup: boolean;
     setShowSignupPopup: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+}
   
-  const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignupPopup }) => {
-        
-    const [signupData, setSignupData] = useState({
-        nickname: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
-    const [passwordMatch, setPasswordMatch] = useState(true);
+const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignupPopup }) => {
+      
+  const [signupData, setSignupData] = useState({
+      nickname: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+  });
+  const [passwordMatch, setPasswordMatch] = useState(true);
 
-    const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
-        setShowSignupPopup(false);
-      }
-    };
-    
-    const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+      setShowSignupPopup(false);
+    }
+  };
+  
+  const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({
       ...signupData,
       [e.target.name]: e.target.value,
@@ -84,7 +85,7 @@
   return (
       <div id="signup-popup-container" className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50 z-50" onClick={handleOutsideClick}>
           <div id="signup-popup-content" className={showSignupPopup ? 
-              'relative flex flex-col items-center p-5 w-128 bg-white rounded-xl shadow-lg ' : ''
+              'relative flex flex-col items-center p-5 w-128 bg-white rounded-xl shadow-lg popup-up' : ''
             } ref={popupRef as React.RefObject<HTMLDivElement>}>
               <h2 className='font-sans font-bold text-xl'>회원가입</h2>
               <form id='signup-form' className='flex flex-col items-center w-min h-min' onSubmit={handleSignupSubmit}>
