@@ -61,8 +61,8 @@ const Signin  = () => {
           <form id="login-form" className="flex flex-col items-center w-max h-max mt-10" onSubmit={handleSubmit}>
             <div id="login-field" className="flex flex-col items-start py-3 px-4 w-max h-max">
               <label id="login-field-label" className="pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900">Email address</label>
-              <input id="login-field-input--email" className="p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-              placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300"
+              <input id="login-field-input--email" className="p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
+              placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40"
                 type="email"
                 value={email}
                 placeholder='Email address'
@@ -72,7 +72,7 @@ const Signin  = () => {
             <div id="login-field" className="flex flex-col items-start py-3 px-4 w-max h-max">
               <label id="login-field-label" className="pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900">Password</label>
               <input id="login-field-input--password" className="p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-              placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300"
+              placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40"
               type="password"
               value={password}
               placeholder='Password'
@@ -86,8 +86,8 @@ const Signin  = () => {
             </button>
           </form>
           <div id="login-spacer2" className="m-2"></div>
-          <button id="login-button-signup" type="button" onClick={handleSignupClick} className="flex flex-row justify-center items-center py-5 w-96 h-12 bg-zinc-100 rounded-3xl
-              font-sans font-bold text-base leading-6 tracking-wider text-slate-500 cursor-pointer">
+          <button id="login-button-signup" type="button" onClick={handleSignupClick} className="flex flex-row justify-center items-center py-5 w-96 h-12 bg-groom-grey rounded-3xl
+              font-sans font-bold text-base leading-6 tracking-wider text-groom-blacktext cursor-pointer">
             Sign Up
           </button>
         </div>

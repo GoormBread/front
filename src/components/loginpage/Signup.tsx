@@ -84,14 +84,14 @@
   return (
       <div id="signup-popup-container" className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50 z-50" onClick={handleOutsideClick}>
           <div id="signup-popup-content" className={showSignupPopup ? 
-              'relative flex flex-col items-center p-5 w-96 bg-white rounded-xl shadow-lg ' : ''
+              'relative flex flex-col items-center p-5 w-128 bg-white rounded-xl shadow-lg ' : ''
             } ref={popupRef as React.RefObject<HTMLDivElement>}>
-              <h2>회원가입</h2>
+              <h2 className='font-sans font-bold text-xl'>회원가입</h2>
               <form id='signup-form' className='flex flex-col items-center w-min h-min' onSubmit={handleSignupSubmit}>
                 <div id="signup-field" className='flex flex-col items-center px-3 py-4 w-96 h-28'>
                     <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900'>Nickname</label>
-                      <input id="signup-field-input" className='box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300'
+                      <input id="signup-field-input" className='box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
+                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40'
                       type="text"
                       name="nickname"
                       value={signupData.nickname}
@@ -101,8 +101,8 @@
                 </div>
                 <div id="signup-field" className='flex flex-col items-center px-3 py-4 w-96 h-28'>
                     <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900'>Email</label>
-                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300'
+                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
+                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40'
                       type="email"
                       name="email"
                       value={signupData.email}
@@ -112,8 +112,8 @@
                 </div>
                 <div id="signup-field" className='flex flex-col items-center px-3 py-4 w-96 h-28'>
                     <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900'>Password</label>
-                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300'
+                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
+                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40'
                       type="password"
                       name="password"
                       value={signupData.password}
@@ -123,8 +123,8 @@
                 </div>
                 <div id="signup-field" className='flex flex-col items-center px-3 py-4 w-96 h-28'>
                     <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900A'>Password Confirm</label>
-                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-stone-300 rounded-xl
-                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-stone-300'
+                      <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
+                      placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40'
                         type="password"
                         name="confirmPassword"
                         value={signupData.confirmPassword}
@@ -132,7 +132,7 @@
                         onChange={handleSignupChange}
                       />
                 </div>
-              <button type="submit" id="signup-button---signup_popup" className='flex flex-row justify-center items-center py-5 w-96 h-12 mt-8 bg-emerald-500 rounded-3xl font-sans font-bold text-base leading-6 tracking-wider text-white cursor-pointer'>Sign Up</button>
+              <button type="submit" id="signup-button---signup_popup" className='flex flex-row justify-center items-center py-5 w-96 h-12 mt-8 mb-8 bg-emerald-500 rounded-3xl font-sans font-bold text-base leading-6 tracking-wider text-white cursor-pointer'>Sign Up</button>
             </form>
         </div>
     </div>
