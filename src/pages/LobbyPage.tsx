@@ -1,9 +1,16 @@
-import React from "react";
+import React from 'react';
+import GameDetail from '../components/lobbypage/GameDetail';
+import PlayerFeature from '../components/lobbypage/PlayerFeature';
+import GroomHeader from "../components/@common/groomheader"
 
-export default function LobbyPage(){
+export default function LobbyPage() {
     return (
-        <>
-            로비 페이지 입니다.
-        </>
-    )
-}
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-white">
+            <GroomHeader />
+            <div className="flex flex-col bg-[#FFFBE1] items-center rounded-[12px] gap-12">
+                <GameDetail />
+                <PlayerFeature />
+            </div>
+        </div>
+    );
+};
