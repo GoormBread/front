@@ -8,11 +8,11 @@ import GamePadButton from "../components/gameplaypage/GamePadButton";
 
 export default function GamePlayPage() {
   return (
-    <GameBackground className="flex justify-center items-center min-h-screen bg-gray-500">
+    <GameBackground className="flex justify-center items-center min-h-screen bg-groom-brown">
         <div className="flex w-full max-w-screen-2xl">
             <GamePad className="flex flex-col justify-center items-center flex-grow bg-white rounded-lg shadow-lg p-4">
-                <GameDisplay className="flex-grow w-[1024px] h-[768px] bg-gray-200 rounded-lg shadow-lg"></GameDisplay>
-                <GamePadButton className="w-full rounded-lg p-4 bg-gray-200 mt-4"></GamePadButton>
+                <GameDisplay className="flex-grow w-[1024px] h-[768px] bg-gray-100 rounded-lg shadow-lg"></GameDisplay>
+                <GamePadButton className="flex flex-row justify-center items-center w-full rounded-lg p-4 bg-gray-200 mt-4"></GamePadButton>
             </GamePad>
             <div className="ml-8 w-1/6 flex flex-col">
                 <div className="flex justify-between mb-8">
