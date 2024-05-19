@@ -7,7 +7,9 @@ interface GamePadProps {
 
 export default function GamePad({ children, className }: GamePadProps) {
   return (
-    <div className={`${className}`}>
+    <div
+      className={`${className}`}
+    >
       {children}
     </div>
   );

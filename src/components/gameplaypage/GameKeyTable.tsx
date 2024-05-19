@@ -7,7 +7,7 @@ interface GameKeyTableProps {
 export default function GameKeyTable({ className }: GameKeyTableProps) {
   return (
     <div className={`${className}`}>
-      <table className="w-full h-full bg-white rounded-lg shadow-md overflow-hidden">
+      <table className="w-full h-full bg-white rounded-lg shadow-md overflow-hidden font-serif font-bold">
         <thead>
           <tr className="bg-gray-200">
             <th className="py-2 px-4 font-semibold">버튼</th>
