@@ -1,0 +1,23 @@
+.popup-up {
+    animation-name: show-popup;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in-out;
+}
+
+.popup-down {
+    animation-name: show-popup;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in-out;
+    animation-direction: reverse;
+}
+
+@keyframes show-popup {
+    0% {
+        transform: translateY(10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 100;
+    }
+}
