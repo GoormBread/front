@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import GameDisplay from "../components/gameplaypage/GameDisplay";
 import GameBackground from "../components/gameplaypage/GameBackground";
 import GamePad from "../components/gameplaypage/GamePad";
@@ -7,6 +8,16 @@ import Button from "../components/gameplaypage/Button";
 import GamePadButton from "../components/gameplaypage/GamePadButton";
 
 export default function GamePlayPage() {
+    const navigate = useNavigate();
+
+    const handleExitClick = () => {
+      navigate('/');
+    };
+  
+    const handleReportClick = () => {
+      
+    };
+
   return (
     <GameBackground className="flex justify-center items-center min-h-screen bg-groom-brown">
         <div className="flex w-full max-w-screen-2xl">
@@ -18,7 +29,7 @@ export default function GamePlayPage() {
             <div className="ml-8 w-1/6 flex flex-col">
                 <div className="flex justify-between mt-8 mb-8">
                     <Button type="report" className="w-28 text-center" />
-                    <Button type="exit" className="w-28 text-center" />
+                    <Button type="exit" className="w-28 text-center" onClick={handleExitClick} />
                 </div>
                 <div className="flex-grow overflow-auto">
                     <GameKeyTable className="h-2/3 bg-white rounded-lg shadow-md text-center"></GameKeyTable>

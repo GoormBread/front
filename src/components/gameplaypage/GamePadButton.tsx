@@ -43,19 +43,19 @@ export default function GamePadButton({ className }: GamePadButtonProps) {
         </div>
       </div>
       <div className="flex justify-center items-center ml-40">
-        <text className="absolute font-serif font-bold text-lg z-10">SELECT</text>
+        <span className="absolute font-serif font-bold text-lg z-10">SELECT</span>
         <img src="/GameplayPage/box_w.svg" className={`${activeButton === "control" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-4">
-        <text className="absolute font-serif font-bold text-lg z-10">START</text>
+        <span className="absolute font-serif font-bold text-lg z-10">START</span>
         <img src="/GameplayPage/box_w.svg" className={`${activeButton === "shift" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-10">
-        <text className="absolute font-serif font-bold text-2xl z-10">A</text>
+        <span className="absolute font-serif font-bold text-2xl z-10">A</span>
         <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "a" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-4">
-        <text className="absolute font-serif font-bold text-2xl z-10">B</text>  
+        <span className="absolute font-serif font-bold text-2xl z-10">B</span>  
         <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "b" ? "filter brightness-[0.85]" : ""}`} />
       </div>
     </div>
