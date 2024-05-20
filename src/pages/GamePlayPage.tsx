@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import GameDisplay from "../components/gameplaypage/GameDisplay";
 import GameBackground from "../components/gameplaypage/GameBackground";
@@ -6,16 +6,22 @@ import GamePad from "../components/gameplaypage/GamePad";
 import GameKeyTable from "../components/gameplaypage/GameKeyTable";
 import Button from "../components/gameplaypage/Button";
 import GamePadButton from "../components/gameplaypage/GamePadButton";
+import ReportPopUp from "../components/gameplaypage/ReportPopUp";
 
 export default function GamePlayPage() {
     const navigate = useNavigate();
+    const [isReportPopUpOpen, setIsReportPopUpOpen] = useState(false);
 
     const handleExitClick = () => {
       navigate('/');
     };
   
     const handleReportClick = () => {
-      
+        setIsReportPopUpOpen(true);
+    };
+    
+      const handlePopUpClose = () => {
+        setIsReportPopUpOpen(false);
     };
 
   return (
@@ -28,7 +34,7 @@ export default function GamePlayPage() {
             </GamePad>
             <div className="ml-8 w-1/6 flex flex-col">
                 <div className="flex justify-between mt-8 mb-8">
-                    <Button type="report" className="w-28 text-center" />
+                    <Button type="report" className="w-28 text-center" onClick={handleReportClick} />
                     <Button type="exit" className="w-28 text-center" onClick={handleExitClick} />
                 </div>
                 <div className="flex-grow overflow-auto">
@@ -36,6 +42,11 @@ export default function GamePlayPage() {
                 </div>
             </div>
         </div>
+        {isReportPopUpOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" onClick={handlePopUpClose}>
+            <ReportPopUp className="bg-white w-[500px] h-[500px] rounded-lg shadow-lg" onClick={(e) => e.stopPropagation()}/>
+        </div>
+        )}
     </GameBackground>
   );
 }
