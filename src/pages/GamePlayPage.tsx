@@ -18,11 +18,12 @@ export default function GamePlayPage() {
   
     const handleReportClick = () => {
         setIsReportPopUpOpen(true);
-    };
-    
+      };
+      
       const handlePopUpClose = () => {
         setIsReportPopUpOpen(false);
-    };
+        
+      };
 
   return (
     <GameBackground className="flex justify-center items-center min-h-screen bg-groom-brown">
@@ -42,11 +43,11 @@ export default function GamePlayPage() {
                 </div>
             </div>
         </div>
-        {isReportPopUpOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" onClick={handlePopUpClose}>
-            <ReportPopUp className="bg-white w-[500px] h-[500px] rounded-lg shadow-lg" onClick={(e) => e.stopPropagation()}/>
+        <div className={`fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-20 ${isReportPopUpOpen ? "visible" : "duration-300 ease-in-out invisible"}`} onClick={handlePopUpClose}>
+            <ReportPopUp className={`bg-groom-brown w-1/4 h-1/2 rounded-lg transform transition duration-300 ease-in-out ${isReportPopUpOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`} 
+                onClick={(e) => e.stopPropagation()} 
+                onClose={() => setIsReportPopUpOpen(false)} />
         </div>
-        )}
     </GameBackground>
   );
 }

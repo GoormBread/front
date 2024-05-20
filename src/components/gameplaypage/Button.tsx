@@ -14,12 +14,8 @@ export default function Button({ className, type, onClick }: ButtonProps) {
   };
 
   return (
-    <button
-      className={`px-4 py-2 rounded-md font-serif font-bold text-lg ${
-        type === "report" ? "bg-blue-500 text-white hover:bg-blue-600" : "bg-red-500 text-white hover:bg-red-600"
-      } ${className}`}
-      onClick={handleClick}
-    >
+    <button className={`px-4 py-2 rounded-md font-serif font-bold text-lg ${type === "report" ? "bg-gray-500 text-white hover:bg-gray-600" : "bg-red-500 text-white hover:bg-red-600"} ${className}`} 
+    onClick={handleClick}>
       {type === "report" ? "Report" : "Exit"}
     </button>
   );
