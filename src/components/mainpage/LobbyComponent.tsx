@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface LobbyComponentProps {
   lobby: {
@@ -9,19 +10,26 @@ interface LobbyComponentProps {
     gameType: string;
     thumbnail: string;
   };
-  onClick: (lobbyName: string) => void;
+  onClick: (lobbyName: string, hasPassword:boolean) => void;
+  index: number;
 }
 
-const LobbyComponent: React.FC<LobbyComponentProps> = ({ lobby, onClick }) => {
+const LobbyComponent: React.FC<LobbyComponentProps> = ({ lobby, onClick, index }) => {
   const handleClick = () => {
-    onClick(lobby.name);
+    onClick(lobby.name, lobby.hasPassword);
   };
 
   return (
-    <div className="relative bg-groom-grey p-4 h-96 rounded-lg rounded-br-[50px]" onClick={handleClick}>
+    <motion.div 
+      className="relative bg-groom-grey p-4 h-96 rounded-lg rounded-br-[50px] hover:brightness-95 active:brightness-75" 
+      onClick={handleClick}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
       <div className='relative p-10 h-36 '>
         <img src={lobby.thumbnail} alt={lobby.name} className="absolute top-0 left-0 w-full h-full p-4 object-cover mb-2 bg-gray-400 rounded-lg" />
-        {lobby.hasPassword &&  <div className='flex items-center justify-center absolute top-0 left-0 w-full h-full bg-black opacity-50'>
+        {lobby.hasPassword &&  <div className='flex items-center justify-center absolute top-0 left-0 w-full h-full bg-black bg-opacity-50'>
           <img src='/MainPage/lock.svg' className='fill-white w-16 h-16'/>
         </div>}
       </div>
@@ -37,7 +45,7 @@ const LobbyComponent: React.FC<LobbyComponentProps> = ({ lobby, onClick }) => {
       <div className='absolute right-2 bottom-12 rotate-[60deg] w-8 h-1 bg-gray-500'></div>
       <div className='absolute right-5 bottom-10 rotate-[60deg] w-8 h-1 bg-gray-500'></div>
       <div className='absolute right-8 bottom-8 rotate-[60deg] w-8 h-1 bg-gray-500'></div>
-    </div>
+    </motion.div>
   );
 };
 

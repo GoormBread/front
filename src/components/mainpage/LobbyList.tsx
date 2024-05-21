@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Lobby from './LobbyComponent';
 
-const LobbyList = () => {
+interface LobbyListProp {
+  onClickLobby: (lobbyName: string, hasPassword: boolean) => void;
+}
+
+const LobbyList: React.FC<LobbyListProp> = ({onClickLobby}) => {
   const [lobbies, setLobbies] = useState([
     {
       name: 'Lobby 1',
@@ -85,20 +90,49 @@ const LobbyList = () => {
   //   fetchLobbies();
   // }, []);
 
-  const handleLobbyClick = (lobbyName: string) => {
-    console.log(`Clicked lobby: ${lobbyName}`);
-    // 클릭된 로비에 대한 추가 동작 수행
+  
+  const fetchLobbies = async () => {
+    try {
+      const response = await fetch('API_URL');
+      const data = await response.json();
+      setLobbies(data);
+    } catch (error) {
+      console.error('Error fetching lobbies:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLobbies();
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const handleRefreshClick = () => {
+    fetchLobbies();
   };
 
   return (
     <div className='w-full h-full'>
       <div className='flex flex-col items-start w-[1200px] mx-auto mt-20'>
         <div className='font-sans font-semibold text-4xl text-groom-blacktext mb-10'>Lobby List</div>
-        <div className=" w-full grid grid-cols-4 gap-6">
-          {lobbies.map((lobby) => (
-            <Lobby key={lobby.name} lobby={lobby} onClick={handleLobbyClick} />
+        <motion.div 
+          className=" w-full grid grid-cols-4 gap-6"
+          variants={containerVariants} 
+          initial="hidden"
+          animate="visible"
+        >
+          {lobbies.map((lobby, index) => (
+            <Lobby key={index} lobby={lobby} onClick={onClickLobby} index={index} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
