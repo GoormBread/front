@@ -1,40 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { loadPlayer } from "rtsp-relay/browser";
 
 interface GameDisplayProps {
   className?: string;
+  onPlayClick: () => void;
+  isPlaying: boolean;
 }
 
-export default function GameDisplay({ className }: GameDisplayProps) {
+export default function GameDisplay({ className, onPlayClick, isPlaying }: GameDisplayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [showCanvas, setShowCanvas] = useState(false);
 
   useEffect(() => {
-    const delay = 0;
-
-    const timer = setTimeout(() => {
-      setShowCanvas(true);
-    }, delay);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (showCanvas && canvasRef.current) {
+    if (isPlaying && canvasRef.current) {
       loadPlayer({
         url: "ws://localhost:2000/api/stream",
         canvas: canvasRef.current,
       });
     }
-  }, [showCanvas]);
+  }, [isPlaying]);
 
   return (
     <div className={`${className}`}>
-      {showCanvas && (
-        <canvas ref={canvasRef} className="w-full h-full rounded-lg"></canvas>
-      )}
+      <canvas ref={canvasRef} className="w-full h-full rounded-lg"></canvas>
     </div>
   );
 }
