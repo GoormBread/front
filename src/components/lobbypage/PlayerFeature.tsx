@@ -18,8 +18,8 @@ export default function PlayerFeature() {
     }
     return (
         <>
-        <div className="w-[1440px] h-[362px] flex flex-row justify-center items-start p-[7px_30px] gap-7">
-            <div id="player_state_container" className="w-[1040px] h-[348px] flex flex-col items-start p-[15px_22px] gap-[29px] flex-grow">
+        <div className="w-[1440px] h-[362px] flex flex-row justify-center items-start gap-[150px]">
+            <div id="player_state_container" className="relative flex flex-row items-center p-[15px_15px] gap-[100px] rounded-xl">
                 <PlayerState name="Player1" ready={isReady} />
                 <PlayerState name="Player2" ready={isReady}/>
             </div>
