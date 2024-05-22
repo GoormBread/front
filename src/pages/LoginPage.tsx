@@ -5,7 +5,7 @@ import GroomHeader from "../components/@common/groomheader"
 export default function LoginPage(){
     return(
         <>
-            <GroomHeader/>
+            <GroomHeader redirection="/login" isActiveCreateLobbyButton={ false } isActiveLogoutButton={false}/>
             <Signin/>
         </>
     )
