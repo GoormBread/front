@@ -41,7 +41,7 @@ export default function PlayerFeature() {
                 </button>
             </div>
         </div>
-        {showKeySetting && (<KeySetting showKeySetting={showKeySetting} setShowKeySetting={setShowKeySetting} />)}
+        (<KeySetting showKeySetting={showKeySetting} setShowKeySetting={setShowKeySetting} onClick={(e) => e.stopPropagation()} onClose={() => setShowKeySetting(false)}  />)
         </>
     );
 }
