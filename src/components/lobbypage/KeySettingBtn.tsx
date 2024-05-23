@@ -40,7 +40,7 @@ function KeySettingBtn({ children, padBtn, name, handleKeySettingChange}: KeySet
     };
 
     return (
-        <div className="w-[80%] h-[100px] flex flex-row items-center p-[0px_20px] rounded-xl flex-grow">
+        <div className="w-[80%] h-[80px] flex flex-row items-center p-[0px_20px] rounded-xl flex-grow">
             <label className="flex items-center w-[60%] font-['Spline_Sans'] font-semibold text-[30px] leading-[24px] text-[#1C0D0D]">
                 {padBtn}
             </label>

@@ -94,7 +94,7 @@ export default function KeySetting({showKeySetting, setShowKeySetting, onClick, 
                     {keySettingData.right}
                 </KeySettingBtn>
                 <div className="w-[90%] h-[1px] bg-black"></div>
-                <button id="ok_btn" onClick={onClose} className="mt-10 w-[170px] h-[70px] bg-[#9EA6B8] rounded-[12px] flex justify-center items-center px-4">
+                <button id="ok_btn" onClick={onClose} className="mt-10 mb-10 w-[170px] h-[70px] bg-[#9EA6B8] rounded-[12px] flex justify-center items-center px-4">
                     <div className="flex items-center font-['Spline_Sans'] font-bold text-[30px] leading-[21px] text-center text-white">
                         OK
                     </div>

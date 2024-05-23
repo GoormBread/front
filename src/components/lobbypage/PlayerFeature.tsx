@@ -18,7 +18,7 @@ export default function PlayerFeature() {
     }
     return (
         <>
-        <div className="mb-[40px] w-[1440px] h-[362px] flex flex-row justify-center items-start gap-[150px]">
+        <div className="mb-[20px] w-[1440px] h-[362px] flex flex-row justify-center items-start gap-[150px]">
             <div id="player_state_container" className="relative flex flex-row items-center p-[15px_15px] gap-[100px] rounded-xl">
                 <PlayerState name="Player1" ready={isReady} />
                 <PlayerState name="Player2" ready={isReady}/>
@@ -41,7 +41,7 @@ export default function PlayerFeature() {
                 </button>
             </div>
         </div>
-        (<KeySetting showKeySetting={showKeySetting} setShowKeySetting={setShowKeySetting} onClick={(e) => e.stopPropagation()} onClose={() => setShowKeySetting(false)}  />)
+        <KeySetting showKeySetting={showKeySetting} setShowKeySetting={setShowKeySetting} onClick={(e) => e.stopPropagation()} onClose={() => setShowKeySetting(false)}  />
         </>
     );
 }
