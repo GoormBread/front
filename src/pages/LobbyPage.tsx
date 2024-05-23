@@ -7,7 +7,7 @@ export default function LobbyPage() {
     return (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-white">
             <GroomHeader redirection="/login" isActiveCreateLobbyButton={ false } isActiveLogoutButton={false}/>
-            <div className="flex flex-col bg-groom-brown items-center rounded-[12px] gap-12">
+            <div className="w-[1440px] h-[1024px] flex flex-col bg-groom-brown items-center rounded-[12px] gap-12">
                 <GameDetail />
                 <PlayerFeature />
             </div>
