@@ -10,7 +10,7 @@ export default function GamePadButton({ className }: GamePadButtonProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
-      if (["arrowup", "arrowdown", "arrowleft", "arrowright", "a", "b", "control", "shift"].includes(key)) {
+      if (["arrowup", "arrowdown", "arrowleft", "arrowright", "enter", "z", "x", "shift"].includes(key)) {
         setActiveButton(key);
       }
     };
@@ -44,19 +44,19 @@ export default function GamePadButton({ className }: GamePadButtonProps) {
       </div>
       <div className="flex justify-center items-center ml-40">
         <span className="absolute font-serif font-bold text-lg z-10">SELECT</span>
-        <img src="/GameplayPage/box_w.svg" className={`${activeButton === "control" ? "filter brightness-[0.85]" : ""}`} />
+        <img src="/GameplayPage/box_w.svg" className={`${activeButton === "shift" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-4">
         <span className="absolute font-serif font-bold text-lg z-10">START</span>
-        <img src="/GameplayPage/box_w.svg" className={`${activeButton === "shift" ? "filter brightness-[0.85]" : ""}`} />
+        <img src="/GameplayPage/box_w.svg" className={`${activeButton === "enter" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-10">
         <span className="absolute font-serif font-bold text-2xl z-10">A</span>
-        <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "a" ? "filter brightness-[0.85]" : ""}`} />
+        <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "z" ? "filter brightness-[0.85]" : ""}`} />
       </div>
       <div className="flex justify-center items-center ml-4">
         <span className="absolute font-serif font-bold text-2xl z-10">B</span>  
-        <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "b" ? "filter brightness-[0.85]" : ""}`} />
+        <img src="/GameplayPage/circle_w.svg" className={`${activeButton === "x" ? "filter brightness-[0.85]" : ""}`} />
       </div>
     </div>
   );

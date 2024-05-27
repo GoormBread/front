@@ -13,7 +13,7 @@ export default function GameDisplay({ className, onPlayClick, isPlaying }: GameD
   useEffect(() => {
     if (isPlaying && canvasRef.current) {
       loadPlayer({
-        url: "ws://localhost:2000/api/stream",
+        url: "ws://paran2024.iptime.org:32000/api/stream",
         canvas: canvasRef.current,
       });
     }
