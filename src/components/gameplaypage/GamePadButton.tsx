@@ -10,6 +10,7 @@ export default function GamePadButton({ className }: GamePadButtonProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
+      console.log(event.key);
       if (["arrowup", "arrowdown", "arrowleft", "arrowright", "a", "b", "control", "shift"].includes(key)) {
         setActiveButton(key);
       }

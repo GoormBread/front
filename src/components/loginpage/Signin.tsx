@@ -41,6 +41,7 @@ const Signin  = () => {
     
           if (response.ok) {
             const data = await response.json();
+            document.cookie = `user_id=${email}; path=/; max-age=3600;`;
             console.log(data);
           } else {
             console.error('로그인 실패');

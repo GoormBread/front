@@ -15,8 +15,44 @@ interface groomheaderProps {
 const groomheader: React.FC<groomheaderProps> = ({ redirection, isActiveCreateLobbyButton, isActiveLogoutButton, buttonInfo}) => {
     const navigate = useNavigate();
 
-    const onClickLogoutButton = () => {
-        navigate('/login');
+    const getCookieValue = (name: string): string | undefined => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        
+        if (parts.length === 2) {
+          const lastPart = parts.pop();
+          if (lastPart) {
+            return lastPart.split(';').shift();
+          }
+        }
+      
+        return undefined;
+    };
+
+    const onClickLogoutButton = async () => {
+        try {
+            const user_id = getCookieValue('user_id');
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.cookie = `user_id=; path=/; max-age=0;`;
+                console.log(data);
+                navigate('/login');
+            } else {
+                console.error('로그아웃 실패');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
