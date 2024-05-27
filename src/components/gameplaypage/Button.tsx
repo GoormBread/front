@@ -2,7 +2,7 @@ import React from "react";
 
 interface ButtonProps {
   className?: string;
-  type: "report" | "exit";
+  type: "start" | "exit";
   onClick?: () => void;
 }
 
@@ -14,9 +14,9 @@ export default function Button({ className, type, onClick }: ButtonProps) {
   };
 
   return (
-    <button className={`px-4 py-2 rounded-md font-serif font-bold text-lg ${type === "report" ? "bg-gray-500 text-white hover:bg-gray-600" : "bg-red-500 text-white hover:bg-red-600"} ${className}`} 
+    <button className={`px-4 py-2 rounded-md font-serif font-bold text-lg ${type === "start" ? "bg-green-500 text-white hover:bg-green-600" : "bg-red-500 text-white hover:bg-red-600"} ${className}`} 
     onClick={handleClick}>
-      {type === "report" ? "Report" : "Exit"}
+      {type === "start" ? "Start" : "Exit"}
     </button>
   );
 } 
