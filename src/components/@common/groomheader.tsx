@@ -31,8 +31,7 @@ const groomheader: React.FC<groomheaderProps> = ({ redirection, isActiveCreateLo
                     type='button'
                     onClick={onClickLogoutButton}
                     className='flex flex-row justify-center items-center py-1 px-4 w-max h-max bg-groom-grey rounded-full
-                    font-sans font-bold text-xs leading-6 tracking-wider text-groom-blacktext cursor-pointer'
-                    >
+                    font-sans font-bold text-xs leading-6 tracking-wider text-groom-blacktext cursor-pointer'>
                         Logout
                     </button>
                 }
