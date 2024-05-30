@@ -4,8 +4,11 @@ import LobbyPage from "./pages/LobbyPage";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import UserInfoPage from "./pages/UserInfoPage";
+import useUserStore from "./store/useUserStore";
+
 
 export default function App() {
+  useUserStore();
   return (
     <>
       <Routes>
