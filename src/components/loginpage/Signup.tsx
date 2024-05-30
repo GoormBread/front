@@ -95,7 +95,14 @@ const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignu
     try {
         const response = await fetch('http://backend-service:3000/auth/register', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId : signupData.email,
+          password: signupData.password,
+          nickname: signupData.nickname, 
+        }),
       });
 
       if (response.ok) {
@@ -133,7 +140,7 @@ const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignu
                       />
                 </div>
                 <div id="signup-field" className='flex flex-col items-center px-3 py-4 w-96 h-28'>
-                    <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900'>Email</label>
+                    <label id="signup-field-label" className='pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900'>ID</label>
                       <input id="signup-field-input" className='className=box-border flex flex-row justify-center items-center p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
                       placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40'
                       type="text"

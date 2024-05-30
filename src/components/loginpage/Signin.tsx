@@ -28,15 +28,21 @@ const Signin  = () => {
           }
     
 
-        const formData = new FormData();
-        formData.append('userId', email);
-        formData.append('password', password);
+        // const formData = new FormData();
+        // formData.append('userId', email);
+        // formData.append('password', password);
 
         // 로그인 요청 부분
         try {
             const response = await fetch('http://backend-service:3000/auth/login', {
             method: 'POST',
-            body: formData,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              userId :email,
+              password: password 
+            }),
           });
     
           if (response.ok) {
