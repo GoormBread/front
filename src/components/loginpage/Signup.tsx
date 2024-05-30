@@ -93,7 +93,7 @@ const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignu
 
     // 회원가입 요청 부분
     try {
-        const response = await fetch('http://backend-service:3000/auth/register', {
+        const response = await fetch('http://paran2024.iptime.org/backend/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
