@@ -31,8 +31,41 @@ const CreateLobbyPopUp = forwardRef(({ className, onClick, onClose }: CreateLobb
 
   const handleSendPassword = () => {
     setPassword("");
+    handleCreateLobby();
     if (onClose) {
       onClose();
+    }
+  };
+
+  const handleCreateLobby = async () => {if (!lobbyName) {
+      alert(`다음 항목을 입력해주세요: 로비 이름`);
+      return;
+    }
+
+    console.log(`로비생성 요청:', ${game}, ${lobbyName}, ${playerNum}, ${password}`);
+
+    try {
+      const response = await fetch('/lobby', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          game,
+          lobbyName,
+          playerNum,
+          password
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        console.error('로비 생성 실패');
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
