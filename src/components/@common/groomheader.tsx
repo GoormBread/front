@@ -32,7 +32,7 @@ const groomheader: React.FC<groomheaderProps> = ({ redirection, isActiveCreateLo
 
     const onClickLogoutButton = async () => {
         try {
-            const response = await fetch('http://backend-service:3000/auth/logout', {
+            const response = await fetch('http://paran2024.iptime.org/backend/auth/logout', {
                 method: 'POST'
             });
 

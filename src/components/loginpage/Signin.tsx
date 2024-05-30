@@ -34,7 +34,7 @@ const Signin  = () => {
 
         // 로그인 요청 부분
         try {
-            const response = await fetch('http://backend-service:3000/auth/login', {
+            const response = await fetch('http://paran2024.iptime.org/backend/auth/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
