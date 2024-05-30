@@ -20,8 +20,8 @@ export default function GameDisplay({ className, onPlayClick, isPlaying }: GameD
   }, [isPlaying]);
 
   return (
-    <div className={`${className}`}>
-      <canvas ref={canvasRef} className="w-full h-full rounded-lg"></canvas>
+    <div className={`flex justify-center items-center ${className}`}>
+      <canvas ref={canvasRef} className="w-[768px] h-[768px] rounded-lg"></canvas>
     </div>
   );
 }
