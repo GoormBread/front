@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserId } from "../../hooks/useUserStoreHooks";
 
 interface groomheaderProps {
     redirection: string;
@@ -31,20 +32,12 @@ const groomheader: React.FC<groomheaderProps> = ({ redirection, isActiveCreateLo
 
     const onClickLogoutButton = async () => {
         try {
-            const user_id = getCookieValue('user_id');
-            const response = await fetch('/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user_id
-                }),
+            const response = await fetch('http://backend-service:3000/auth/logout', {
+                method: 'POST'
             });
 
             if (response.ok) {
                 const data = await response.json();
-                document.cookie = `user_id=; path=/; max-age=0;`;
                 console.log(data);
                 navigate('/login');
             } else {

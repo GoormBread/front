@@ -34,7 +34,7 @@ const Signin  = () => {
 
         // 로그인 요청 부분
         try {
-            const response = await fetch('/auth/login', {
+            const response = await fetch('http://backend-service:3000/auth/login', {
             method: 'POST',
             body: formData,
           });
