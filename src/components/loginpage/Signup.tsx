@@ -57,12 +57,12 @@ const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignu
     alert(`다음 항목을 입력해주세요: ${missingFields.join(', ')}`);
     return;
   }
-    if (signupData.email.length >= 4) {
+    if (signupData.email.length < 4) {
       alert('아이디가 너무 짧습니다. (4자 이상 14자 이하)');
       return;
     }
 
-    if (signupData.email.length <= 14) {
+    if (signupData.email.length > 14) {
       alert('아이디가 너무 깁니다. (4자 이상 14자 이하)');
       return;
     }
@@ -72,12 +72,12 @@ const Signup: React.FC<SignupProps> = ({ popupRef, showSignupPopup, setShowSignu
       return;
     }
 
-    if (signupData.password.length <= 8) {
+    if (signupData.password.length < 8) {
       alert('비밀번호가 너무 짧습니다. (8자 이상 20자 이하)');
       return;
     }
 
-    if (signupData.password.length >= 20) {
+    if (signupData.password.length > 20) {
       alert('비밀번호가 너무 깁니다. (8자 이상 20자 이하)');
       return;
     }
