@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { loadPlayer } from "rtsp-relay/browser";
 
 interface GameDisplayProps {
@@ -9,19 +9,34 @@ interface GameDisplayProps {
 
 export default function GameDisplay({ className, onPlayClick, isPlaying }: GameDisplayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDelayedPlaying, setIsDelayedPlaying] = useState(false);
 
   useEffect(() => {
-    if (isPlaying && canvasRef.current) {
+    if (isPlaying) {
+      const delay = setTimeout(() => {
+        setIsDelayedPlaying(true);
+      }, 100);
+
+      return () => clearTimeout(delay);
+    } else {
+      setIsDelayedPlaying(false);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (isDelayedPlaying && canvasRef.current) {
       loadPlayer({
         url: "ws://paran2024.iptime.org:32000/api/stream",
         canvas: canvasRef.current,
       });
     }
-  }, [isPlaying]);
+  }, [isDelayedPlaying]);
 
   return (
     <div className={`flex justify-center items-center ${className}`}>
-      <canvas ref={canvasRef} className="w-[768px] h-[768px] rounded-lg"></canvas>
+      {isDelayedPlaying && (
+        <canvas ref={canvasRef} className="w-[768px] h-[768px] rounded-lg"></canvas>
+      )}
     </div>
   );
 }

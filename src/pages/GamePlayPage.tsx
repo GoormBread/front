@@ -42,7 +42,7 @@ export default function GamePlayPage() {
         newSocket.onerror = (error) => {
           console.error('WebSocket 오류:', error);
         };
-      }, 5000);
+      }, 3000);
     }
   
     return () => {
