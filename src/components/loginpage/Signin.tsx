@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSetUserStore } from "../../hooks/useUserStoreHooks";
 import Signup from './Signup';
 
 const Signin  = () => {
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showSignupPopup, setShowSignupPopup] = useState(false);
     const popupRef = useRef<HTMLDivElement | null>(null);
+    const { setUserStore } = useSetUserStore();
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -24,29 +27,43 @@ const Signin  = () => {
             return;
           }
     
-        console.log('로그인 요청:', { email, password });
-    
+
+        // const formData = new FormData();
+        // formData.append('userId', email);
+        // formData.append('password', password);
+
         // 로그인 요청 부분
         try {
-          const response = await fetch('/auth/login', {
+            const response = await fetch('http://paran2024.iptime.org/backend/auth/login', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              email,
-              password,
+              userId :email,
+              password: password 
             }),
           });
     
           if (response.ok) {
             const data = await response.json();
+            const { userId, nickname} = data;
+            setUserStore(userId, nickname);
+            navigate('/');
             console.log(data);
+          } else if (response.status == 401) {
+             // password incorrect
+            alert("비밀번호를 잘못 입력하였습니다.");
+          } else if (response.status == 404) {
+            // id is unexist
+            alert("아이디가 존재하지 않습니다.");
           } else {
             console.error('로그인 실패');
+            alert("로그인에 실패하였습니다. " + response.status);
           }
         } catch (error) {
           console.error(error);
+          alert("로그인 요청 중 오류가 발생했습니다. " + error)
         }
       };
     
@@ -63,9 +80,9 @@ const Signin  = () => {
               <label id="login-field-label" className="pb-2 w-96 h-8 font-sans font-medium text-base leading-6 text-stone-900">Email address</label>
               <input id="login-field-input--email" className="p-4 w-96 h-14 bg-white border border-solid border-groom-brown rounded-xl
               placeholder:text-base placeholder:leading-6 placeholder:font-sans placeholder:font-medium placeholder:tracking-wider placeholder:text-groom-browntext placeholder:text-opacity-40"
-                type="email"
+                type="text"
                 value={email}
-                placeholder='Email address'
+                placeholder='ID'
                 onChange={handleEmailChange}
               />
             </div>
