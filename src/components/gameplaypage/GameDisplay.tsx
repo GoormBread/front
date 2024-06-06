@@ -26,7 +26,7 @@ export default function GameDisplay({ className, onPlayClick, isPlaying }: GameD
   useEffect(() => {
     if (isDelayedPlaying && canvasRef.current) {
       loadPlayer({
-        url: "ws://paran2024.iptime.org:32000/api/stream",
+        url: "ws://paran2024.iptime.org/play-goormbread/test/api/stream",
         canvas: canvasRef.current,
       });
     }

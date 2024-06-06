@@ -30,12 +30,13 @@ export default function GamePlayPage() {
   
     if (isPlaying) {
       timeoutId = setTimeout(() => {
-        const newSocket = new WebSocket('ws://paran2024.iptime.org:32001/keyboard/1p');
+        const newSocket = new WebSocket('ws://paran2024.iptime.org/play-goormbread/test/websocket1');
         newSocket.onopen = () => {
           console.log('WebSocket 연결이 열렸습니다.');
           setSocket(newSocket);
         };
         newSocket.onclose = () => {
+          
           console.log('WebSocket 연결이 닫혔습니다.');
           setSocket(null);
         };
