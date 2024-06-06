@@ -6,33 +6,55 @@ import GamePad from "../components/gameplaypage/GamePad";
 import GameKeyTable from "../components/gameplaypage/GameKeyTable";
 import Button from "../components/gameplaypage/Button";
 import GamePadButton from "../components/gameplaypage/GamePadButton";
-import ReportPopUp from "../components/gameplaypage/ReportPopUp";
 
 export default function GamePlayPage() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [pressedKeys, setPressedKeys] = useState<string[]>([]);
+
+  // 실제 Argument를 받아와서 처리
+  // var websocketUrl = "";
+  // var user = "";
+  // if(user == '1p')
+  // {
+  //   websocketUrl = 'ws://paran2024.iptime.org:1201/keyboard/1p';
+  // }
+  // else if(user == '2p')
+  // {
+  //   websocketUrl = 'ws://paran2024.iptime.org:1014/keyboard/2p';
+  // }
 
   useEffect(() => {
-    const newSocket = new WebSocket('ws://paran2024.iptime.org:32001/websocket');
-    newSocket.onopen = () => {
-      console.log('WebSocket 연결이 열렸습니다.');
-      setSocket(newSocket); // WebSocket 연결을 상태에 저장
-    };
-    newSocket.onclose = () => {
-      console.log('WebSocket 연결이 닫혔습니다.');
-      setSocket(null); // WebSocket 연결을 닫으면 상태에서 제거
-    };
-    newSocket.onerror = (error) => {
-      console.error('WebSocket 오류:', error);
-    };
-    // 컴포넌트가 언마운트 될 때 WebSocket 연결을 닫음
+    let timeoutId: NodeJS.Timeout | null = null;
+  
+    if (isPlaying) {
+      timeoutId = setTimeout(() => {
+        const newSocket = new WebSocket('ws://paran2024.iptime.org/play-goormbread/test/websocket1');
+        newSocket.onopen = () => {
+          console.log('WebSocket 연결이 열렸습니다.');
+          setSocket(newSocket);
+        };
+        newSocket.onclose = () => {
+          
+          console.log('WebSocket 연결이 닫혔습니다.');
+          setSocket(null);
+        };
+        newSocket.onerror = (error) => {
+          console.error('WebSocket 오류:', error);
+        };
+      }, 3000);
+    }
+  
     return () => {
-      if (newSocket) {
-        newSocket.close();
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      if (socket) {
+        socket.close();
       }
     };
-  }, []);
+  }, [isPlaying]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -40,61 +62,110 @@ export default function GamePlayPage() {
         onKeyDownHandler(event);
       }
     };
-
-    const handleKeyUp = () => {
+  
+    const handleKeyUp = (event: KeyboardEvent) => {
       if (isPlaying) {
-        onKeyUpHandler();
+        onKeyUpHandler(event);
       }
     };
-
+  
     if (isPlaying) {
       window.addEventListener('keydown', handleKeyDown);
       window.addEventListener('keyup', handleKeyUp);
     }
-
+  
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isPlaying]);
-
+  }, [isPlaying, pressedKeys]);
+  
   const onKeyDownHandler = (event: KeyboardEvent) => {
-    console.log("실행");
-    console.log(event.key);
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      if (event.key === 'Enter') {
-        socket.send('Enter');
-      }
-      if (event.key === 'ArrowRight') {
-        socket.send('RIGHT');
-      }
-      if (event.key === 'ArrowLeft') {
-        socket.send('LEFT');
-      }
-      if (event.key === 'ArrowUp') {
-        socket.send('UP');
-      }
-      if (event.key === 'ArrowDown') {
-        socket.send('DOWN');
-      }
-      if (event.key === 'x') {
-        socket.send('X');
-      }
-      if (event.key === 'z') {
-        socket.send('Z');
-      }
-      if (event.key === 'Shift') {
-        socket.send('RightShift');
-      }
+    var key = '';
+    if(event.key === 'ArrowUp')
+    {
+      key = 'UP';
     }
+    if(event.key === 'ArrowDown')
+    {
+      key = 'DOWN';
+    }
+    if(event.key === 'ArrowLeft')
+    {
+      key = 'LEFT';
+    }
+    if(event.key === 'ArrowRight')
+    {
+      key = 'RIGHT';
+    }
+    if(event.key === 'Enter')
+    {
+      key = 'Enter';
+    } 
+    if(event.key === 'x')
+    {
+      key = 'X';
+    }
+    if(event.key === 'z')
+    {
+      key = 'Z';
+    }
+    if(event.key === 'Shift')
+    {
+        key = 'RightShift';
+    }
+    if (!pressedKeys.includes(key)) {
+      setPressedKeys((prevKeys) => [...prevKeys, key]);
+    }
+  };
+  
+  const onKeyUpHandler = (event: KeyboardEvent) => {
+    var key = '';
+    if(event.key === 'ArrowUp')
+      {
+        key = 'UP';
+      }
+      if(event.key === 'ArrowDown')
+      {
+        key = 'DOWN';
+      }
+      if(event.key === 'ArrowLeft')
+      {
+        key = 'LEFT';
+      }
+      if(event.key === 'ArrowRight')
+      {
+        key = 'RIGHT';
+      }
+      if(event.key === 'Enter')
+      {
+        key = 'Enter';
+      } 
+      if(event.key === 'x')
+      {
+        key = 'X';
+      }
+      if(event.key === 'z')
+      {
+        key = 'Z';
+      }
+      if(event.key === 'Shift')
+      {
+        key = 'RightShift';
+      }
+    setPressedKeys((prevKeys) => prevKeys.filter((k) => k !== key));
   };
 
-  const onKeyUpHandler = () => {
-    console.log("실행2");
+  useEffect(() => {
+    console.log(pressedKeys);
+  }, [pressedKeys]);
+  
+  useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send('');
+      const message = JSON.stringify(pressedKeys);
+      socket.send(message);
     }
-  };
+  }, [socket, pressedKeys]);
 
   const handleExitClick = () => {
     setIsPlaying(false); // isPlaying을 false로 설정
