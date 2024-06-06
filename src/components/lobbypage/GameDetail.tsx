@@ -1,31 +1,38 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
+import { GameApi} from '../../api';
 
 export default function GameDetail() {
     const [gameName, setGameName] = useState('MetalSlug');
     const [gameExplain, setGameExplain] = useState('메탈슬러그입니다. 재미있어요.');
     const [gameSumnail, setGameSumnail] = useState('/LobbyPage/MetalSlug.jpg');
     const lobby_id = useParams();
+    const gameApi = new GameApi();
+    const game_id = "5be1b121-c22f-4bba-a802-d25abd0a12b5"
 
     useEffect(() => {
-        const fetchData = async () => {
+      const fetchGameList = async () => {
           try {
-            const response = await fetch(`/all-lobby/id=${lobby_id}`); // API 요청
-            if (response.ok) {
-              const data = await response.json();
-              setGameName(data.game_name);
-              setGameExplain(data.game_info);
-              setGameSumnail(`/LobbyPage/${data.game_name}.jpg`);
-            } else {
-              console.error('데이터 가져오기 실패');
-            }
+              const response = await gameApi.gameControllerGetGameInformtaionRaw({
+                gameId: game_id
+              });
+              const data = await response.raw.json();
+              console.log("실행");
+              console.log(response);
+              setGameName(data.gameInfo.game_name);
+              setGameExplain(data.gameInfo.game_info);
+              const thumbnail_response = await gameApi.gameControllerGetGameThumbnailRaw({
+                gameId: game_id
+              });
+              setGameSumnail(URL.createObjectURL(await thumbnail_response.raw.blob()));
+              
           } catch (error) {
-            console.error('네트워크 에러:', error);
+              console.error('게임 정보를 가져오는 중 오류가 발생했습니다:', error);
           }
-        };
+      };
 
-        fetchData(); // 컴포넌트가 마운트될 때 fetchData 호출
-      }, []);
+      fetchGameList();
+  }, []);
 
     return (
         <div id="game_data_container" className="mt-5 w-[90%] h-[50%] bg-[#FFFFE1] border border-black flex flex-row justify-center items-center rounded-[12px] p-4 gap-2 flex-grow">

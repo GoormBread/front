@@ -6,6 +6,7 @@ import GamePad from "../components/gameplaypage/GamePad";
 import GameKeyTable from "../components/gameplaypage/GameKeyTable";
 import Button from "../components/gameplaypage/Button";
 import GamePadButton from "../components/gameplaypage/GamePadButton";
+import { PatchUserPadInformationDto, UserApi } from "../api";
 
 export default function GamePlayPage() {
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -22,6 +23,40 @@ export default function GamePlayPage() {
     Enter: false
   });
 
+  const [userPad, setUserPad] = useState<PatchUserPadInformationDto>({
+    user_game_command: {
+        A: 'z',
+        B: 'x',
+        SELECT: 's',
+        START: 'Enter',
+        UP: 'ArrowUp',
+        DOWN: 'ArrowDown',
+        LEFT: 'ArrowLeft',
+        RIGHT: 'ArrowRight'
+    }
+});
+
+const user_id="ygjin" //유저id(나중에 수정)
+
+const userApi = new UserApi();
+
+useEffect(() => {
+    const fetchUserPad = async () => {
+        try {
+            const response = await userApi.userControllerGetUserPadInformationRaw({
+                userId: user_id
+            });
+            const data = await response.raw.json();
+            setUserPad(data.userCommand);
+            console.log("실행", data.userCommand);
+        } catch (error) {
+            console.error('사용자 패드 정보를 가져오는 중 오류가 발생했습니다:', error);
+        }
+    };
+
+    fetchUserPad();
+}, []);
+
   // 실제 Argument를 받아와서 처리
   // var websocketUrl = "";
   // var user = "";
@@ -36,7 +71,7 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (isPlaying) {
-      const newSocket = new WebSocket('ws://paran2024.iptime.org:32001/keyboard/1p');
+      const newSocket = new WebSocket('ws://paran2024.iptime.org:32002/keyboard/2runp');
       newSocket.onopen = () => {
         console.log('WebSocket 연결이 열렸습니다.');
         setSocket(newSocket);
@@ -84,31 +119,31 @@ export default function GamePlayPage() {
   const onKeyDownHandler = (event: KeyboardEvent) => {
     setKeys(prevKeys => {
       const newKeys = { ...prevKeys };
-      if (event.key === 'ArrowUp') {
+      if (event.key === userPad.user_game_command.UP) {
         newKeys.ArrowUp = true;
       }
-      if (event.key === 'ArrowDown') {
+      if (event.key === userPad.user_game_command.DOWN) {
         newKeys.ArrowDown = true;
       }
-      if (event.key === 'ArrowLeft') {
+      if (event.key === userPad.user_game_command.LEFT) {
         newKeys.ArrowLeft = true;
       }
-      if (event.key === 'ArrowRight') {
+      if (event.key === userPad.user_game_command.RIGHT) {
         newKeys.ArrowRight = true;
       }
-      if (event.key === 'Enter') {
+      if (event.key === userPad.user_game_command.START) {
         newKeys.Enter = true;
       }
-      if (event.key === 'x') {
+      if (event.key === userPad.user_game_command.B) {
         newKeys.X = true;
-        console.log(event.key);
       }
-      if (event.key === 'z') {
+      if (event.key === userPad.user_game_command.A) {
         newKeys.Z = true;
       }
-      if (event.key === 's') {
+      if (event.key === userPad.user_game_command.SELECT) {
         newKeys.RightShift = true;
       }
+      console.log(event.code);
       return newKeys;
     });
   };
@@ -116,28 +151,28 @@ export default function GamePlayPage() {
   const onKeyUpHandler = (event: KeyboardEvent) => {
     setKeys(prevKeys => {
       const newKeys = { ...prevKeys };
-      if (event.key === 'ArrowUp') {
+      if (event.key === userPad.user_game_command.UP) {
         newKeys.ArrowUp = false;
       }
-      if (event.key === 'ArrowDown') {
+      if (event.key === userPad.user_game_command.DOWN) {
         newKeys.ArrowDown = false;
       }
-      if (event.key === 'ArrowLeft') {
+      if (event.key === userPad.user_game_command.LEFT) {
         newKeys.ArrowLeft = false;
       }
-      if (event.key === 'ArrowRight') {
+      if (event.key === userPad.user_game_command.RIGHT) {
         newKeys.ArrowRight = false;
       }
-      if (event.key === 'Enter') {
+      if (event.key === userPad.user_game_command.START) {
         newKeys.Enter = false;
       }
-      if (event.key === 'x') {
+      if (event.key === userPad.user_game_command.B) {
         newKeys.X = false;
       }
-      if (event.key === 'z') {
+      if (event.key === userPad.user_game_command.A) {
         newKeys.Z = false;
       }
-      if (event.key === 's') {
+      if (event.key === userPad.user_game_command.SELECT) {
         newKeys.RightShift = false;
       }
       return newKeys;
@@ -167,7 +202,7 @@ export default function GamePlayPage() {
         <img src="/GameplayPage/groomicon.svg" className="absolute ml-4 mt-4"/>
         <GamePad className="flex flex-col justify-center items-center flex-grow bg-[#E5E0C7] border border-black rounded-lg shadow-lg p-4">
           <GameDisplay className="flex-grow w-[1024px] h-[768px] bg-[#363836] rounded-lg shadow-md" onPlayClick={handlePlayClick} isPlaying={isPlaying}></GameDisplay>
-          <GamePadButton className="flex flex-row justify-center items-center w-[1100px] rounded-lg shadow-lg p-2 bg-[#C7C3A9] mt-4"></GamePadButton>
+          <GamePadButton className="flex flex-row justify-center items-center w-[1100px] rounded-lg shadow-lg p-2 bg-[#C7C3A9] mt-4" isKeyPress={keys}></GamePadButton>
         </GamePad>
         <div className="ml-8 w-1/6 flex flex-col">
           <div className="flex justify-between mt-8 mb-8">

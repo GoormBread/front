@@ -24,7 +24,7 @@ export interface PatchUserPadInformationDto {
      * @type {object}
      * @memberof PatchUserPadInformationDto
      */
-    userGameCommand: object;
+    user_game_command: object;
 }
 
 /**
@@ -45,7 +45,7 @@ export function PatchUserPadInformationDtoFromJSONTyped(json: any, ignoreDiscrim
     }
     return {
         
-        'userGameCommand': json['userGameCommand'],
+        'user_game_command': json['userGameCommand'],
     };
 }
 
@@ -55,7 +55,7 @@ export function PatchUserPadInformationDtoToJSON(value?: PatchUserPadInformation
     }
     return {
         
-        'userGameCommand': value['userGameCommand'],
+        'userGameCommand': value['user_game_command'],
     };
 }
 

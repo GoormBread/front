@@ -1,10 +1,12 @@
 //로그인을 했을 경우 로비 리스트 페이지를 보여주지만 그렇지 않을 경우 랜딩 페이지를 보여준다.
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LobbyList from "../components/mainpage/LobbyList";
 import GroomHeader from "../components/@common/groomheader"
 import PasswordPopUp, { PasswordPopupRef } from '../components/mainpage/PasswordPopup';
 import CreateLobbyPopUp, { CreateLobbyPopupRef } from '../components/mainpage/CreateLobbyPopup';
+import { UserControllerGetUserPadInformationRequest } from "../api";
+import { useUserId } from "../hooks/useUserStoreHooks";
 
 const onClickCreateLobbyButton = async () => {
     try {

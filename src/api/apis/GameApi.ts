@@ -182,4 +182,34 @@ export class GameApi extends runtime.BaseAPI {
         await this.gameControllerPostGameInformationRaw(requestParameters, initOverrides);
     }
 
+    /**
+     */
+    async gameControllerGetGameThumbnailRaw(requestParameters: GameControllerGetGameCommandRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['gameId'] == null) {
+            throw new runtime.RequiredError(
+                'gameId',
+                'Required parameter "gameId" was null or undefined when calling gameControllerGetGameCommand().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/game/{gameId}/thumbnail`.replace(`{${"gameId"}}`, encodeURIComponent(String(requestParameters['gameId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async gameControllerGetGameThumbnail(requestParameters: GameControllerPostGameInformationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.gameControllerGetGameThumbnailRaw(requestParameters, initOverrides);
+    }
+
 }
