@@ -1,0 +1,11 @@
+.openapi-generator-ignore
+apis/AuthApi.ts
+apis/GameApi.ts
+apis/UserApi.ts
+apis/index.ts
+index.ts
+models/LoginDto.ts
+models/PatchUserPadInformationDto.ts
+models/SaveUserDto.ts
+models/index.ts
+runtime.ts
