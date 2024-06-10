@@ -1,109 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { motion } from 'framer-motion';
-import Lobby from './LobbyComponent';
+import { Socket } from 'socket.io-client';
+import LobbyComponent from './LobbyComponent';
 
 interface LobbyListProp {
+  socket: Socket;
   onClickLobby: (lobbyName: string, hasPassword: boolean) => void;
+  fetchLobbies: () => void;
 }
 
-const LobbyList: React.FC<LobbyListProp> = ({onClickLobby}) => {
-  const [lobbies, setLobbies] = useState([
-    {
-      name: 'Lobby 1',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Battle Royale',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 2',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: true,
-      gameType: 'Capture the Flag',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 3',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Team Deathmatch',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 4',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Team Deathmatch',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 1',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Battle Royale',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 2',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: true,
-      gameType: 'Capture the Flag',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 3',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Team Deathmatch',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    {
-      name: 'Lobby 4',
-      currentPlayers: 1,
-      maxPlayers: 2,
-      hasPassword: false,
-      gameType: 'Team Deathmatch',
-      thumbnail: '/AuthPage/testLoginImage.svg',
-    },
-    // 추가적인 임시 로비 데이터를 여기에 정의할 수 있습니다.
-  ]);
+const LobbyList: React.FC<LobbyListProp> = forwardRef(({socket, onClickLobby, fetchLobbies}: LobbyListProp, ref) => {
+  const [lobbies, setLobbies] = useState([]);
 
-  // API 호출 부분은 주석 처리합니다.
-  // useEffect(() => {
-  //   const fetchLobbies = async () => {
-  //     try {
-  //       const response = await fetch('API_URL');
-  //       const data = await response.json();
-  //       setLobbies(data);
-  //     } catch (error) {
-  //       console.error('Error fetching lobbies:', error);
-  //     }
-  //   };
-  //
-  //   fetchLobbies();
-  // }, []);
-
-  
-  const fetchLobbies = async () => {
-    try {
-      const response = await fetch('API_URL');
-      const data = await response.json();
-      setLobbies(data);
-    } catch (error) {
-      console.error('Error fetching lobbies:', error);
-    }
-  };
+  socket.on('allLobbies', (lobbies) => {
+    setLobbies(lobbies)
+    console.log("lobby", lobbies);
+  });
 
   useEffect(() => {
+    socket.emit("getAllLobby")
     fetchLobbies();
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    setDefault: () => {
+      socket.emit("getAllLobby")
+      fetchLobbies();
+    },
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -130,12 +54,12 @@ const LobbyList: React.FC<LobbyListProp> = ({onClickLobby}) => {
           animate="visible"
         >
           {lobbies.map((lobby, index) => (
-            <Lobby key={index} lobby={lobby} onClick={onClickLobby} index={index} />
+            <LobbyComponent key={index} lobby={lobby} onClick={onClickLobby} index={index} />
           ))}
         </motion.div>
       </div>
     </div>
   );
-};
+});
 
 export default LobbyList;

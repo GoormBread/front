@@ -1,27 +1,41 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { GameApi } from "../../api";
 
 interface CreateLobbyPopUpProps {
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onClose?: () => void;
+  CreateLobby: (lobbyName: string, lobbyDescription: string, password: string) => void;
 }
 
-const CreateLobbyPopUp = forwardRef(({ className, onClick, onClose }: CreateLobbyPopUpProps, ref) => {
-    const [game, setGame] = useState("");
-    const [lobbyName, setLobbyName] = useState("");
-    const [playerNum, setPlayerNum] = useState(1);
-    const [hasPassword, setHasPassword] = useState(false);
-    const [password, setPassword] = useState("");
+const CreateLobbyPopUp = forwardRef(({ className, onClick, onClose, CreateLobby }: CreateLobbyPopUpProps, ref) => {
+  const [game, setGame] = useState("");
+  const [lobbyName, setLobbyName] = useState("");
+  const [playerNum, setPlayerNum] = useState(1);
+  const [hasPassword, setHasPassword] = useState(false)
+  const [password, setPassword] = useState("");
+  const [gameList, setGameList] = useState([]);
+  
+  const gameApi = new GameApi();
 
-    useImperativeHandle(ref, () => ({
-        setDefault: () => {
-            setGame("");
-            setLobbyName("");
-            setPlayerNum(1);
-            setHasPassword(false);
-            setPassword("");
-        },
-    }));
+  useEffect(() => {
+    const fetchGameList = async () => {
+        try {
+            const response = await gameApi.gameControllerGetAllGameListRaw({
+            });
+            const data = await response.raw.json();
+            setGameList(data.allGameInfo);
+            setGame(data.allGameInfo[0].game_id); 
+            console.log("실행");
+            
+        } catch (error) {
+            console.error('게임 정보를 가져오는 중 오류가 발생했습니다:', error);
+        }
+    };
+
+    fetchGameList();
+}, []);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (onClick) {
@@ -42,44 +56,23 @@ const CreateLobbyPopUp = forwardRef(({ className, onClick, onClose }: CreateLobb
       return;
     }
 
-    console.log(`로비생성 요청:', ${game}, ${lobbyName}, ${playerNum}, ${password}`);
+    console.log(`로비생성 요청:'${game}, ${lobbyName}, ${playerNum}, ${password}`);
 
-    try {
-      const response = await fetch('/lobby', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          game,
-          lobbyName,
-          playerNum,
-          password
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      } else {
-        console.error('로비 생성 실패');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    const lobby_Id = uuidv4();
+    CreateLobby(lobbyName, game, password);
   };
 
   return (
     <div className={`flex flex-col justify-center items-center ${className}`} onClick={handleClick}>
       <span className="font-sans font-bold text-3xl m-4 mb-10">Create Lobby</span>
       <select className="block relative w-96 mb-4 bg-white font-sans border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow focus:outline-none focus:shadow-outline" value={game} onChange={(e) => setGame(e.target.value)}>
-        <option>메탈슬러그3</option>
-        <option>슈퍼마리오</option>
-        <option>젤다의 전설</option>
+        {gameList.map((game) => (
+          <option key={game.game_id} value={game.game_id}> {game.game_name}</option>
+        ))}
       </select>
       <input className="block w-96 h-10 p-4 mb-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:outline-none focus:shadow-outline" placeholder="Lobby Name" value={lobbyName} onChange={(e) => setLobbyName(e.target.value)}></input>
       <div className="flex flex-row items-center justify-start w-96 mb-3">
-        <div className="flex flex-row items-center mr-5">
+        {/* <div className="flex flex-row items-center mr-5">
             <input id="1Player" type="radio" name="playerNumGroup" value="1" defaultChecked={true} onChange={(e) => setPlayerNum(e.target.valueAsNumber)}
                 className="w-4 h-4 mr-2"
             ></input>
@@ -90,7 +83,7 @@ const CreateLobbyPopUp = forwardRef(({ className, onClick, onClose }: CreateLobb
                 className="w-4 h-4 mr-2"
             ></input>
             <label htmlFor="2Player" className="font-sans text-base">2 Players</label>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-row items-center justify-start w-96 mb-3">
             <input id="hasPassword" type="checkbox" checked={hasPassword} onChange={(e) => setHasPassword(e.target.checked) }

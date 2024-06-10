@@ -2,11 +2,12 @@ import React, { forwardRef, useImperativeHandle, useState } from "react";
 
 interface PasswordPopUpProps {
   className?: string;
+  lobbyPassword: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onClose?: () => void;
 }
 
-const PasswordPopUp = forwardRef(({ className, onClick, onClose }: PasswordPopUpProps, ref) => {
+const PasswordPopUp = forwardRef(({ className, lobbyPassword, onClick, onClose }: PasswordPopUpProps, ref) => {
   const [password, setPassword] = useState("");
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
 
@@ -26,7 +27,7 @@ const PasswordPopUp = forwardRef(({ className, onClick, onClose }: PasswordPopUp
   const handleSendPassword = () => {
     // 비밀번호 입력 API 호출 및 결과에 따른 처리 진행
     setPassword("");
-    setIsPasswordCorrect(!isPasswordCorrect);
+    setIsPasswordCorrect(password === lobbyPassword);
   };
 
   return (

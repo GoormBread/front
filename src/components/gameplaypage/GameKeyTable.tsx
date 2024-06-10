@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { GameApi } from "../../api";
+import { Socket } from "socket.io-client";
 
 interface GameKeyTableProps {
   className?: string;
+  socket: Socket
 }
 
-export default function GameKeyTable({ className }: GameKeyTableProps) {
+export default function GameKeyTable({ className, socket }: GameKeyTableProps) {
   interface KeyInfoData {
     [key: string]: string;
     A: string;
@@ -30,13 +32,18 @@ export default function GameKeyTable({ className }: GameKeyTableProps) {
   });
   const lobby_id = useParams();
   const gameApi = new GameApi();
-  const game_id = "5be1b121-c22f-4bba-a802-d25abd0a12b5"
+  const [gameId, setGameId] = useState("5be1b121-c22f-4bba-a802-d25abd0a12b5");
+
+  socket.on('updateLobby', (lobby) => {
+    console.log("업데이트 로비", lobby);
+    setGameId(lobby.lobbyDescription);
+});
 
   useEffect(() => {
     const fetchGameList = async () => {
         try {
             const response = await gameApi.gameControllerGetGameCommandRaw({
-              gameId: game_id
+              gameId: gameId
             });
             const data = await response.raw.json();
             console.log(response);
@@ -48,41 +55,7 @@ export default function GameKeyTable({ className }: GameKeyTableProps) {
     };
 
     fetchGameList();
-}, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response_lobby = await fetch(`/all-lobby/id=${lobby_id}`); // API 요청
-        if (response_lobby.ok) {
-          const lobby_data = await response_lobby.json();
-          const response_game_id = await fetch(`/all-game/id=${lobby_data.game_id}/pad`); // API 요청
-          if (response_game_id.ok) {
-            const data = await response_game_id.json();
-            setKeyInfoData({
-              A: data.A,
-              B: data.B,
-              Select: data.Select,
-              Start: data.Start,
-              UP: data.Up,
-              DOWN: data.Down,
-              LEFT: data.Left,
-              RIGHT: data.Right
-            })
-          } else {
-            console.error('게임 키 정보 데이터 가져오기 실패');
-          }
-        } else {
-          console.error('데이터 가져오기 실패');
-        }
-
-      } catch (error) {
-        console.error('네트워크 에러:', error);
-      }
-    };
-
-    fetchData(); // 컴포넌트가 마운트될 때 fetchData 호출
-}, []);
+}, [gameId]);
 
   return (
     <div className={`${className}`}>

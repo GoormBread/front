@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { loadPlayer } from "rtsp-relay/browser";
 
 interface GameDisplayProps {
@@ -9,11 +10,13 @@ interface GameDisplayProps {
 
 export default function GameDisplay({ className, onPlayClick, isPlaying }: GameDisplayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const {lobbyID} = useParams();
 
   useEffect(() => {
     if (isPlaying && canvasRef.current) {
       loadPlayer({
-        url: "ws://paran2024.iptime.org:32000/api/stream",
+        //ws://paran2024.iptime.org/play-goormbread/로비아이디/api/stream
+        url: `ws://paran2024.iptime.org/play-goormbread/${lobbyID}/api/stream`,
         canvas: canvasRef.current,
       });
     }
