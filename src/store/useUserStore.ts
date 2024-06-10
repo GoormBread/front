@@ -1,18 +1,26 @@
-// useUserStore.js
+// useUserStore.ts
 import { create } from "zustand";
+import { persist  } from 'zustand/middleware';
 
-type userStore = {
+type UserStore = {
   userId: string;
   nickname: string;
 
-  setUserStore: (userId: string, nickname:string) => void
+  setUserStore: (userId: string, nickname: string) => void;
 }
 
-const useUserStore = create<userStore>() ((set) => ({
-    userId: "",
-    nickname: "",
+const useUserStore = create<UserStore>()(
+  persist(
+    (set) => ({
+      userId: "",
+      nickname: "",
 
-    setUserStore: (userId: string, nickname: string) => set( () => ({ userId: userId, nickname: nickname })),
-}))
+      setUserStore: (userId: string, nickname: string) => set(() => ({ userId, nickname })),
+    }),
+    {
+      name: 'user-store'
+    }
+  )
+);
 
 export default useUserStore;

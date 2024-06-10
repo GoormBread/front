@@ -14,7 +14,7 @@ function KeySettingBtn({ children, padBtn, name, handleKeySettingChange}: KeySet
     useEffect(() => {
         const handleKeyDown = (event: globalThis.KeyboardEvent) => {
             if (isListening) {
-                const key = event.code === ' ' ? 'Space' : event.code;
+                const key = event.key === ' ' ? 'Space' : event.key;
                 handleKeySettingChange(name, key)
                 setIsListening(false);
             }

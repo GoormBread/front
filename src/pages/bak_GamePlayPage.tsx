@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GameDisplay from "../components/gameplaypage/GameDisplay";
 import GameBackground from "../components/gameplaypage/GameBackground";
 import GamePad from "../components/gameplaypage/GamePad";
 import GameKeyTable from "../components/gameplaypage/GameKeyTable";
 import Button from "../components/gameplaypage/Button";
 import GamePadButton from "../components/gameplaypage/GamePadButton";
-import { PatchUserPadInformationDto, UserApi } from "../api";
-import { Socket, io } from "socket.io-client";
-import { useUserId } from "../hooks/useUserStoreHooks";
 
-interface GamePlayPageProps {
-  socket: Socket;
-}
-
-export default function GamePlayPage({socket}: GamePlayPageProps) {
-  const [keyboardSocket, setKeyboardSocket] = useState<WebSocket | null>(null);
+export default function GamePlayPage() {
+  const [socket, setSocket] = useState<WebSocket | null>(null);
   const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
   const [keys, setKeys] = useState({
@@ -29,94 +22,37 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
     Enter: false
   });
 
-  const [userPad, setUserPad] = useState<PatchUserPadInformationDto>({
-    user_game_command: {
-      A: 'z',
-      B: 'x',
-      SELECT: 's',
-      START: 'Enter',
-      UP: 'ArrowUp',
-      DOWN: 'ArrowDown',
-      LEFT: 'ArrowLeft',
-      RIGHT: 'ArrowRight'
-    }
-  });
-
-  const { lobbyID } = useParams()
-  const { userId } = useUserId();
-
-  const userApi = new UserApi();
-
-  useEffect(() => {
-    const fetchUserPad = async () => {
-      try {
-        const response = await userApi.userControllerGetUserPadInformationRaw({
-          userId: userId
-        });
-        const data = await response.raw.json();
-        setUserPad(data.userCommand);
-        console.log("패드정보: ", data.userCommand);
-      } catch (error) {
-        console.error('사용자 패드 정보를 가져오는 중 오류가 발생했습니다:', error);
-      }
-    };
-
-    fetchUserPad();
-  }, []);
-
-  useEffect(() => {
-    console.log("update");
-    socket.emit('toggleReady', { lobbyId: lobbyID, playerId: userId }); // updatalobby용
-}, []);
-
-  socket.on('error', (message) => {
-    console.log('Error: ' + message);
-  });
-  socket.on('startGame', (route) => {
-    console.log('startGame: ' + route);
-  });
-
   // 실제 Argument를 받아와서 처리
-  var websocketUrl = "";
-  socket.on('updateLobby', (lobby) => {
-    console.log("업데이트 로비", lobby);
-    Object.keys(lobby.players).map((playerKey, index) => {
-      console.log("playerkey: ", playerKey, userId === playerKey);
-      if(userId === playerKey)
-        websocketUrl = `ws://paran2024.iptime.org/play-goormbread/${lobbyID}/keyboard/${index}p`;
-  });
-
-    console.log("websocketurl:", websocketUrl)
-  });
-
-  // if(userId == '1p')
+  // var websocketUrl = "";
+  // var user = "";
+  // if(user == '1p')
   // {
   //   websocketUrl = 'ws://paran2024.iptime.org:1201/keyboard/1p';
   // }
-  // else if(userId == '2p')
+  // else if(user == '2p')
   // {
   //   websocketUrl = 'ws://paran2024.iptime.org:1014/keyboard/2p';
   // }
 
   useEffect(() => {
     if (isPlaying) {
-      const newSocket = new WebSocket(websocketUrl); //ws://paran2024.iptime.org:32002/keyboard/2
+      const newSocket = new WebSocket('ws://paran2024.iptime.org:32001/keyboard/1p');
       newSocket.onopen = () => {
         console.log('WebSocket 연결이 열렸습니다.');
-        setKeyboardSocket(newSocket);
+        setSocket(newSocket);
       };
       newSocket.onclose = () => {
         console.log('WebSocket 연결이 닫혔습니다.');
-        setKeyboardSocket(null);
+        setSocket(null);
       };
       newSocket.onerror = (error) => {
         console.error('WebSocket 오류:', error);
       };
     }
-
+  
     return () => {
-      if (keyboardSocket) {
-        keyboardSocket.close();
+      if (socket) {
+        socket.close();
       }
     };
   }, [isPlaying]);
@@ -127,52 +63,52 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
         onKeyDownHandler(event);
       }
     };
-
+  
     const handleKeyUp = (event: KeyboardEvent) => {
       if (isPlaying) {
         onKeyUpHandler(event);
       }
     };
-
+  
     if (isPlaying) {
       window.addEventListener('keydown', handleKeyDown);
       window.addEventListener('keyup', handleKeyUp);
     }
-
+  
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [isPlaying]);
-
+  
   const onKeyDownHandler = (event: KeyboardEvent) => {
     setKeys(prevKeys => {
       const newKeys = { ...prevKeys };
-      if (event.key === userPad.user_game_command.UP) {
+      if (event.key === 'ArrowUp') {
         newKeys.ArrowUp = true;
       }
-      if (event.key === userPad.user_game_command.DOWN) {
+      if (event.key === 'ArrowDown') {
         newKeys.ArrowDown = true;
       }
-      if (event.key === userPad.user_game_command.LEFT) {
+      if (event.key === 'ArrowLeft') {
         newKeys.ArrowLeft = true;
       }
-      if (event.key === userPad.user_game_command.RIGHT) {
+      if (event.key === 'ArrowRight') {
         newKeys.ArrowRight = true;
       }
-      if (event.key === userPad.user_game_command.START) {
+      if (event.key === 'Enter') {
         newKeys.Enter = true;
       }
-      if (event.key === userPad.user_game_command.B) {
+      if (event.key === 'x') {
         newKeys.X = true;
+        console.log(event.key);
       }
-      if (event.key === userPad.user_game_command.A) {
+      if (event.key === 'z') {
         newKeys.Z = true;
       }
-      if (event.key === userPad.user_game_command.SELECT) {
+      if (event.key === 's') {
         newKeys.RightShift = true;
       }
-      console.log(event.code);
       return newKeys;
     });
   };
@@ -180,28 +116,28 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
   const onKeyUpHandler = (event: KeyboardEvent) => {
     setKeys(prevKeys => {
       const newKeys = { ...prevKeys };
-      if (event.key === userPad.user_game_command.UP) {
+      if (event.key === 'ArrowUp') {
         newKeys.ArrowUp = false;
       }
-      if (event.key === userPad.user_game_command.DOWN) {
+      if (event.key === 'ArrowDown') {
         newKeys.ArrowDown = false;
       }
-      if (event.key === userPad.user_game_command.LEFT) {
+      if (event.key === 'ArrowLeft') {
         newKeys.ArrowLeft = false;
       }
-      if (event.key === userPad.user_game_command.RIGHT) {
+      if (event.key === 'ArrowRight') {
         newKeys.ArrowRight = false;
       }
-      if (event.key === userPad.user_game_command.START) {
+      if (event.key === 'Enter') {
         newKeys.Enter = false;
       }
-      if (event.key === userPad.user_game_command.B) {
+      if (event.key === 'x') {
         newKeys.X = false;
       }
-      if (event.key === userPad.user_game_command.A) {
+      if (event.key === 'z') {
         newKeys.Z = false;
       }
-      if (event.key === userPad.user_game_command.SELECT) {
+      if (event.key === 's') {
         newKeys.RightShift = false;
       }
       return newKeys;
@@ -209,16 +145,15 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
   };
 
   useEffect(() => {
-    if (keyboardSocket && keyboardSocket.readyState === WebSocket.OPEN) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
       console.log(keys);
       const message = JSON.stringify(keys);
-      keyboardSocket.send(message);
+      socket.send(message);
     }
-  }, [keyboardSocket, keys]);
+  }, [socket, keys]);
 
   const handleExitClick = () => {
     setIsPlaying(false); // isPlaying을 false로 설정
-    socket.emit('leaveLobby', { lobbyId: lobbyID, playerId: userId });
     navigate('/');
   };
 
@@ -229,10 +164,10 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
   return (
     <GameBackground className="flex justify-center items-center min-h-screen bg-groom-brown">
       <div className="flex w-full max-w-screen-2xl">
-        <img src="/GameplayPage/groomicon.svg" className="absolute ml-4 mt-4" />
+        <img src="/GameplayPage/groomicon.svg" className="absolute ml-4 mt-4"/>
         <GamePad className="flex flex-col justify-center items-center flex-grow bg-[#E5E0C7] border border-black rounded-lg shadow-lg p-4">
           <GameDisplay className="flex-grow w-[1024px] h-[768px] bg-[#363836] rounded-lg shadow-md" onPlayClick={handlePlayClick} isPlaying={isPlaying}></GameDisplay>
-          <GamePadButton className="flex flex-row justify-center items-center w-[1100px] rounded-lg shadow-lg p-2 bg-[#C7C3A9] mt-4" isKeyPress={keys}></GamePadButton>
+          <GamePadButton className="flex flex-row justify-center items-center w-[1100px] rounded-lg shadow-lg p-2 bg-[#C7C3A9] mt-4"></GamePadButton>
         </GamePad>
         <div className="ml-8 w-1/6 flex flex-col">
           <div className="flex justify-between mt-8 mb-8">
@@ -240,7 +175,7 @@ export default function GamePlayPage({socket}: GamePlayPageProps) {
             <Button type="exit" className="w-28 text-center" onClick={handleExitClick} />
           </div>
           <div className="flex-grow overflow-auto">
-            <GameKeyTable className="h-2/3 bg-white rounded-lg shadow-md text-center" socket={socket}></GameKeyTable>
+            <GameKeyTable className="h-2/3 bg-white rounded-lg shadow-md text-center"></GameKeyTable>
           </div>
         </div>
       </div>

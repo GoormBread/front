@@ -1,0 +1,198 @@
+openapi: 3.0.0
+paths:
+  /auth/register:
+    post:
+      operationId: AuthController_registerUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveUserDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - auth
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - auth
+  /auth/logout:
+    post:
+      operationId: AuthController_logout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - auth
+  /user/{userId}/pad:
+    get:
+      operationId: UserController_getUserPadInformation
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - user
+    patch:
+      operationId: UserController_patchUserPadInformation
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchUserPadInformationDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+        - user
+  /game/all:
+    get:
+      operationId: GameController_getAllGameList
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - game
+  /game/{gameId}:
+    get:
+      operationId: GameController_getGameInformtaion
+      parameters:
+        - name: gameId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - game
+    delete:
+      operationId: GameController_deleteGameInformation
+      parameters:
+        - name: gameId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - game
+  /game/{gameId}/pad:
+    get:
+      operationId: GameController_getGameCommand
+      parameters:
+        - name: gameId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - game
+  /game:
+    post:
+      operationId: GameController_postGameInformation
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostGameDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - game
+info:
+  title: goormbread api
+  description: 구름빵 API입니다.
+  version: '1.0'
+  contact: {}
+tags:
+  - name: goormbread
+    description: ''
+servers:
+  - url: http://paran2024.iptime.org/backend
+  - url: http://localhost:3000
+components:
+  schemas:
+    SaveUserDto:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: userId
+          example: sgh41232
+        password:
+          type: string
+          description: password
+          example: sgh4123SGH!
+        nickname:
+          type: string
+          description: nickname
+          example: test
+      required:
+        - userId
+        - password
+        - nickname
+    LoginDto:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: userId
+          example: sgh41232
+        password:
+          type: string
+          description: password
+          example: sgh4123SGH!
+      required:
+        - userId
+        - password
+    PatchUserPadInformationDto:
+      type: object
+      properties:
+        userGameCommand:
+          type: object
+          description: 사용자 게임 커맨드 JSON
+          example:
+            A: B
+      required:
+        - userGameCommand
+    PostGameDto:
+      type: object
+      properties: {}
